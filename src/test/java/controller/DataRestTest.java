@@ -15,14 +15,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * fileName     : WorkTypeService
+ * fileName     : DataRestTest
  * author       : lia
- * date         : 2023/01/12
- * description  : 근로형태 WorkTypeService
+ * date         : 2023/06/29
+ * description  : DataRestTest
  * ===========================================================
  * DATE            AUTHOR         NOTE
  * -----------------------------------------------------------
- * 2023/01/12       lia          최초 생성
+ * 2023/06/29       lia          최초 생성
  */
 
 @Disabled("Spring Data REST 통합테스트는 불필요하므로 제외시킴")
