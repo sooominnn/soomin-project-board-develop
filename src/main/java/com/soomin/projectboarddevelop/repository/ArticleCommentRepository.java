@@ -1,7 +1,13 @@
 package com.soomin.projectboarddevelop.repository;
 
+import com.querydsl.core.types.dsl.DateTimeExpression;
+import com.querydsl.core.types.dsl.StringExpression;
 import com.soomin.projectboarddevelop.domain.ArticleComment;
+import com.soomin.projectboarddevelop.domain.QArticleComment;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
+import org.springframework.data.querydsl.binding.QuerydslBindings;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 /**
@@ -15,5 +21,14 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
  * 2023/06/28       lia          최초 생성
  */
 @RepositoryRestResource
-public interface ArticleCommentRepository extends JpaRepository<ArticleComment, Long> {
+public interface ArticleCommentRepository extends JpaRepository<ArticleComment, Long>, QuerydslPredicateExecutor<ArticleComment>, QuerydslBinderCustomizer<QArticleComment> {
+
+    @Override
+    default void customize(QuerydslBindings bindings, QArticleComment root) {
+        bindings.excludeUnlistedProperties(true); // listing 하지 않은 property는 검색에서 제외하는 것을 true로 설정.
+        bindings.including(root.content, root.createdAt, root.createdBy); // content도 일단 넣었지만 크기가 너무 방대해서
+        bindings.bind(root.content).first(StringExpression::containsIgnoreCase);
+        bindings.bind(root.createdAt).first(DateTimeExpression::eq);
+        bindings.bind(root.createdBy).first(StringExpression::containsIgnoreCase);
+    }
 }
